@@ -13,8 +13,8 @@ class Layer(ABC):
         
     def build(self, input_dim):
         self.input_dim = input_dim
-        self.W = self.weight_initializer((input_dim +1 )*self.units)
-        self.b = np.zeros(self.units)
+        self.W = self.weight_initializer((input_dim, self.units))
+        self.b = np.zeros((1, self.units))
     
     @abstractmethod
     def forward(self, input_data):
