@@ -36,6 +36,10 @@ class Dense(Layer):
         # hitung gradien untuk W dan b
         # dL/dW = X.T * delta
         weights_error = np.dot(self.input.T, delta)
+        if self.l1 > 0:
+            weights_error += self.l1 * np.sign(self.W)
+        if self.l2 > 0:
+            weights_error += self.l2 * self.W
 
         # dL/db = delta
         bias_error = np.sum(delta, axis=0, keepdims=True)
