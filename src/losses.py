@@ -28,3 +28,16 @@ class Losses:
         n = y.shape[0]
         grad = (1 / n) * ((y_pred - y) / (y_pred * (1 - y_pred)))
         return grad
+        
+    @staticmethod
+    def cce(y: np.ndarray, y_pred: np.ndarray) -> float:
+        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+        return -np.mean(np.sum(y * np.log(y_pred), axis=1))
+    
+    @staticmethod
+    def d_cce(y: np.ndarray, y_pred: np.ndarray)->np.ndarray:
+        # turunan pertama dari cce terhadap bobot (weight)
+        y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
+        n = y.shape[0]
+        grad = (1 / n) *  y / y_pred
+        return grad
