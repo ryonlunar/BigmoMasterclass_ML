@@ -7,7 +7,9 @@ class Layer(ABC):
         self.input_dim = input_dim
         self.units = units
         self.W = None
+        self.dW = None
         self.b = None
+        self.db = None
         self.activation = activation
         self.weight_initializer = weight_initializer
         self.l1 = l1

@@ -35,21 +35,21 @@ class Dense(Layer):
 
         # hitung gradien untuk W dan b
         # dL/dW = X.T * delta
-        weights_error = np.dot(self.input.T, delta)
+        self.dW = np.dot(self.input.T, delta)
         if self.l1 > 0:
-            weights_error += self.l1 * np.sign(self.W)
+            self.dW += self.l1 * np.sign(self.W)
         if self.l2 > 0:
-            weights_error += self.l2 * self.W
+            self.dW += self.l2 * self.W
 
         # dL/db = delta
-        bias_error = np.sum(delta, axis=0, keepdims=True)
+        self.db = np.sum(delta, axis=0, keepdims=True)
 
         # hitung gradien untuk input
         # dL/dX = delta * W.T
         input_error = np.dot(delta, self.W.T)
 
         # update weights dan bias
-        self.W -= learning_rate * weights_error
-        self.b -= learning_rate * bias_error
+        self.W -= learning_rate * self.dW
+        self.b -= learning_rate * self.db
 
         return input_error
