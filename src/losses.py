@@ -11,7 +11,7 @@ class Losses:
     
     @staticmethod
     def mse(y: np.ndarray, y_pred: np.ndarray)->float:
-        return np.mean(np.power(y-y_pred,2))
+        return float(np.mean(np.power(y-y_pred,2)))
     
     @staticmethod
     def d_mse(y: np.ndarray, y_pred: np.ndarray)->np.ndarray:
@@ -20,7 +20,7 @@ class Losses:
     @staticmethod
     def bce(y: np.ndarray, y_pred: np.ndarray)->float:
         y_pred = np.clip(y_pred, 1e-15, 1 - 1e-15)
-        return -np.mean(y*np.log(y_pred)+(1-y)*np.log(1-y_pred))
+        return float(-np.mean(y*np.log(y_pred)+(1-y)*np.log(1-y_pred)))
     
     @staticmethod
     def d_bce(y: np.ndarray, y_pred: np.ndarray)->np.ndarray:
