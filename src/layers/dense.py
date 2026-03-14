@@ -45,7 +45,7 @@ class Dense(Layer):
         input_error = np.dot(delta, self.W.T)
 
         # update weights dan bias
-        self.W -= learning_rate * (weights_error / batch_size)
-        self.b -= learning_rate * (bias_error / batch_size)
+        self.W -= learning_rate * weights_error
+        self.b -= learning_rate * bias_error
 
         return input_error
