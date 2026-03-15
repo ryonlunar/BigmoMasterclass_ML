@@ -64,10 +64,14 @@ class FFNN:
                 history['val_loss'].append(val_loss)
 
             if verbose == 1:
-                msg = f"Epoch {ep + 1}/{epoch} - loss: {train_loss:.4f}"
+                bar_len = 30
+                filled  = int(bar_len * (ep + 1) / epoch)
+                bar     = '=' * filled + '-' * (bar_len - filled)
+                msg     = f"\rEpoch {ep + 1}/{epoch} [{bar}] loss: {train_loss:.4f}"
                 if val_loss is not None:
                     msg += f" - val_loss: {val_loss:.4f}"
-                print(msg)
+                end = '\n' if ep + 1 == epoch else ''
+                print(msg, end=end, flush=True)
 
         return history
 
