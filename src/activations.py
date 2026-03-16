@@ -11,6 +11,8 @@ class Activations:
         if name == 'sigmoid': return Activations.sigmoid, Activations.d_sigmoid
         if name == 'tanh':    return Activations.tanh,    Activations.d_tanh
         if name == 'softmax': return Activations.softmax, Activations.d_softmax
+        if name == 'leaky_relu': return Activations.leaky_relu, Activations.d_leaky_relu
+        if name == 'swish': return Activations.swish, Activations.d_swish
         raise ValueError(f"Activation '{name}' not supported")
 
     @staticmethod
@@ -71,3 +73,22 @@ class Activations:
             si = s[i]
             J[i] = np.diagflat(si) - np.outer(si, si)
         return J
+        
+    @staticmethod
+    def leaky_relu(x: np.ndarray) -> np.ndarray:
+        '''Leaky relu with alpha = 0.01'''
+        alpha = 0.01
+        return np.maximum(alpha * x, x)
+    
+    @staticmethod
+    def d_leaky_relu(x: np.ndarray) -> np.ndarray:
+        alpha = 0.01
+        return np.where(x > 0, 1, alpha)
+        
+    @staticmethod
+    def swish(x: np.ndarray) -> np.ndarray:
+        return x * Activations.sigmoid(x)
+    
+    @staticmethod
+    def d_swish(x: np.ndarray) -> np.ndarray:
+        return Activations.sigmoid(x) + x * Activations.d_sigmoid(x)
