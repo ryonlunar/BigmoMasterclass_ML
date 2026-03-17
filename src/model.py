@@ -12,7 +12,8 @@ class FFNN:
     def add(self, layer: Layer):
         self.layer_list.append(layer)
 
-    def compile(self, loss: str = 'mse'):
+    def compile(self, loss: str = 'mse', optimizer: str | None = None,
+                beta1: float = 0.9, beta2: float = 0.999, epsilon: float = 1e-8):
         if len(self.layer_list) == 0:
             raise ValueError("Model tidak memiliki layer")
 
@@ -25,6 +26,13 @@ class FFNN:
             input_size = layer.units
 
         self.loss_func, self.d_loss_func = Losses.get(loss)
+
+        if optimizer == 'adam':
+            for layer in self.layer_list:
+                layer.use_adam = True
+                layer.beta1 = beta1
+                layer.beta2 = beta2
+                layer.epsilon = epsilon
 
     def predict(self, input_data: np.ndarray) -> np.ndarray:
         output = input_data
