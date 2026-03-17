@@ -9,6 +9,10 @@ class RMSNorm(Layer):
         self.eps = eps
         self.gamma = None
         self.d_gamma = None
+        # Atribut untuk adam optimizer (di-inisialisasi di method build)
+        self.m_gamma = None
+        self.v_gamma = None
+        self.t = 0
 
     def build(self, input_dim):
         self.input_dim = input_dim
@@ -18,6 +22,10 @@ class RMSNorm(Layer):
         self.dW = None
         self.db = None
         self.d_gamma = None
+        # Initialize atribut untuk Adam
+        self.m_gamma = np.zeros((1, self.units))
+        self.v_gamma = np.zeros((1, self.units))
+        self.t = 0
 
     def forward(self, input_data):
         self.input = input_data
@@ -39,6 +47,15 @@ class RMSNorm(Layer):
 
         self.dW = np.zeros_like(self.W)
         self.db = np.zeros_like(self.b)
-        self.gamma -= learning_rate * self.d_gamma
+
+        if self.use_adam:
+            self.t += 1
+            self.m_gamma = self.beta1 * self.m_gamma + (1 - self.beta1) * self.d_gamma
+            self.v_gamma = self.beta2 * self.v_gamma + (1 - self.beta2) * (self.d_gamma ** 2)
+            m_gamma_hat = self.m_gamma / (1 - self.beta1 ** self.t)
+            v_gamma_hat = self.v_gamma / (1 - self.beta2 ** self.t)
+            self.gamma -= learning_rate * m_gamma_hat / (np.sqrt(v_gamma_hat) + self.epsilon)
+        else:
+            self.gamma -= learning_rate * self.d_gamma
 
         return input_error
