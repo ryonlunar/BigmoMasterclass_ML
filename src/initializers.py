@@ -1,36 +1,51 @@
 import numpy as np
-import math
 
-def initialize_zero():
-    def initer(shape: tuple):
+
+class initialize_zero:
+    def __call__(self, shape: tuple):
         return np.zeros(shape)
-    return initer
 
-def initialize_uniform(lower_bound: float, upper_bound: float, seed: int | None = None):
-    def initer(shape: tuple):
-        rng = np.random.default_rng(seed)
-        return rng.uniform(lower_bound, upper_bound, size=shape)
-    return initer
 
-def initialize_random(mean: float, variance: float, seed: int | None = None):
-    def initer(shape: tuple):
-        rng = np.random.default_rng(seed)
-        std_dev = np.sqrt(variance)
-        return rng.normal(mean, std_dev, size=shape)
-    return initer
+class initialize_uniform:
+    def __init__(self, lower_bound: float, upper_bound: float, seed: int | None = None):
+        self.lower_bound = lower_bound
+        self.upper_bound = upper_bound
+        self.seed = seed
 
-def initialize_xavier_uniform(seed: int | None = None):
-    def initer(shape: tuple):
+    def __call__(self, shape: tuple):
+        rng = np.random.default_rng(self.seed)
+        return rng.uniform(self.lower_bound, self.upper_bound, size=shape)
+
+
+class initialize_random:
+    def __init__(self, mean: float, variance: float, seed: int | None = None):
+        self.mean = mean
+        self.variance = variance
+        self.seed = seed
+
+    def __call__(self, shape: tuple):
+        rng = np.random.default_rng(self.seed)
+        std_dev = np.sqrt(self.variance)
+        return rng.normal(self.mean, std_dev, size=shape)
+
+
+class initialize_xavier_uniform:
+    def __init__(self, seed: int | None = None):
+        self.seed = seed
+
+    def __call__(self, shape: tuple):
         fan_in, fan_out = shape[0], shape[1]
         limit = np.sqrt(6.0 / (fan_in + fan_out))
-        rng = np.random.default_rng(seed)
+        rng = np.random.default_rng(self.seed)
         return rng.uniform(-limit, limit, size=shape)
-    return initer
 
-def initialize_he(seed: int | None = None):
-    def initer(shape: tuple):
+
+class initialize_he:
+    def __init__(self, seed: int | None = None):
+        self.seed = seed
+
+    def __call__(self, shape: tuple):
         fan_in = shape[0]
         std_dev = np.sqrt(2.0 / fan_in)
-        rng = np.random.default_rng(seed)
+        rng = np.random.default_rng(self.seed)
         return rng.normal(0.0, std_dev, size=shape)
-    return initer
