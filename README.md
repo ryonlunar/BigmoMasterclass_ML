@@ -77,5 +77,5 @@ source .venv/bin/activate
 | Nama | NIM | Tugas |
 |---|---|---|
 | Orvin Andika Ikhsan A | 13523017 | Fungsi aktivasi Sigmoid & Tanh, loss MSE & BCE, forward propagation, backward propagation |
-| Fajar Kurniawan | 13523027 | Initializer zero, uniform, random; fungsi aktivasi Softmax, Leaky ReLU, Swish; loss CCE |
-| Adhimas Aryo Bimo | 13523052 | Model FFNN, fungsi aktivasi ReLU & Linear, abstraksi kelas Layer, initializer He & Xavier, optimizer Adam |
+| Fajar Kurniawan | 13523027 | Initializer zero, uniform, random; fungsi aktivasi Softmax, Leaky ReLU, Swish; loss CCE, optimizer Adam |
+| Adhimas Aryo Bimo | 13523052 | Model FFNN, fungsi aktivasi ReLU & Linear, abstraksi kelas Layer, initializer He & Xavier |
