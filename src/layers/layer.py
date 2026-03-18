@@ -1,9 +1,9 @@
 import numpy as np
 from abc import ABC, abstractmethod
-from initializers import initialize_zero
+from initializers import initialize_he
 
 class Layer(ABC):
-    def __init__ (self, units, input_dim = None, activation = None, weight_initializer = initialize_zero(), l1=0.0, l2=0.0,
+    def __init__ (self, units, input_dim = None, activation = None, weight_initializer = initialize_he(42), l1=0.0, l2=0.0,
                   use_adam=False, beta1=0.9, beta2=0.999, epsilon=1e-8):
         self.input_dim = input_dim
         self.units = units

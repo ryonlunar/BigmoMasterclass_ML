@@ -12,7 +12,7 @@ class RMSNorm(Layer):
         # Atribut untuk adam optimizer (di-inisialisasi di method build)
         self.m_gamma = None
         self.v_gamma = None
-        self.t = 0
+        self.t = None
 
     def build(self, input_dim):
         self.input_dim = input_dim
@@ -44,9 +44,6 @@ class RMSNorm(Layer):
         drms = np.sum(dx_norm * self.input, axis=-1, keepdims=True) * (-1 / self.rms ** 2)
 
         input_error = dx_norm / self.rms + drms * (self.input / (n * self.rms))
-
-        self.dW = np.zeros_like(self.W)
-        self.db = np.zeros_like(self.b)
 
         if self.use_adam:
             self.t += 1

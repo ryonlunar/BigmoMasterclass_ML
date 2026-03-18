@@ -24,15 +24,14 @@ class FFNN:
         for layer in self.layer_list:
             layer.build(input_size)
             input_size = layer.units
-
-        self.loss_func, self.d_loss_func = Losses.get(loss)
-
-        if optimizer == 'adam':
-            for layer in self.layer_list:
+            
+            if optimizer == 'adam':
                 layer.use_adam = True
                 layer.beta1 = beta1
                 layer.beta2 = beta2
                 layer.epsilon = epsilon
+
+        self.loss_func, self.d_loss_func = Losses.get(loss)
 
     def predict(self, input_data: np.ndarray) -> np.ndarray:
         output = input_data
